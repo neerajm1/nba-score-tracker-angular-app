@@ -1,0 +1,10 @@
+<div class="team-selection-box">
+    <select name="teams" id="teamSelect" class="teams-dropdown" (change)="onSelectChange($event)">
+        <option *ngFor="let team of teams" [value]="team.id">
+            {{ team.full_name }}
+        </option>
+    </select>
+    <button id="trackBtn" class="blue-button p-5" (click)="onTrackTeamClick()">Track team</button>
+</div>
+
+<app-team-results *ngIf="nbaService.selectedTeams.length"></app-team-results>

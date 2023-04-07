@@ -1,0 +1,16 @@
+<div class="box-border p-10 game-results">
+    <app-team-title-card [team]="teamData" [showDeleteButton]="false"></app-team-title-card>
+    <div class="p-10 row team-details">
+        <div>
+            <p>
+                Scores of past 12 days
+            </p>
+            <div class="row" *ngFor="let result of teamGamesResults">
+                <strong>{{result.home_team.abbreviation}}</strong>&nbsp;{{result.home_team_score}} -
+                {{result.visitor_team_score}}&nbsp;<strong>{{result.visitor_team.abbreviation}}</strong>
+            </div>
+        </div>
+    </div>
+    <button class="green-button p-5" routerLink="/">
+        << Back to all teams stats</button>
+</div>

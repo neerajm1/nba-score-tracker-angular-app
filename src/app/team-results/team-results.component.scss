@@ -1,0 +1,40 @@
+.team-details {
+    justify-content: space-around;
+}
+
+.team-details-box {
+    max-width: 50vw;
+}
+
+.win-badge {
+    border-radius: 50%;
+    background-color: green;
+    color: white;
+    padding: 5px;
+    // position: absolute;
+}
+
+.lose-badge {
+    border-radius: 50%;
+    background-color: red;
+    color: white;
+    padding: 5px;
+    // position: absolute;
+}
+
+.badge {
+    width: 20px;
+    display: flex;
+    align-items: center;
+    margin: 5px;
+    // justify-content: center;
+
+}
+
+.last-results {
+    width: 200px;
+}
+
+.result-box {
+    position: relative;
+}

@@ -1,1 +1,54 @@
 /* You can add global styles to this file, and also import other style files */
+.m-10 {
+    margin: 10px;
+}
+
+.p-10 {
+    padding: 10px;
+}
+
+.box-border {
+    border: 1px solid #bdbdbd;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #bdbdbd;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+button {
+    font-size: 15px;
+}
+
+.blue-button {
+    background-color: royalblue;
+    color: white;
+    border: none;
+}
+
+.green-button {
+    background-color: green;
+    color: white;
+    border: none;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.p-5 {
+    padding: 5px;
+}
+
+.wrap {
+    flex-wrap: wrap;
+}
