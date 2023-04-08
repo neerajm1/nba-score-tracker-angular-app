@@ -19,9 +19,6 @@ export class TeamSelectComponent {
       (data: Response<Team[]>) => {
         this.teams = data.data;
         this.selectedTeamId = this.teams[0].id;
-      },
-      (error) => {
-        console.log({ error });
       }
     );
   }
