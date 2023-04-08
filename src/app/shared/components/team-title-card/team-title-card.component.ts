@@ -13,10 +13,6 @@ export class TeamTitleCardComponent {
 
   constructor(private nbaService: NbaService) { }
 
-  ngOnChanges() {
-    // console.log('pnchanges team', this.team)
-  }
-
   onDeleteClick(teamId: number) {
     this.nbaService.selectedTeams = this.nbaService.selectedTeams.filter(team => team.id !== teamId);
     this.nbaService.teamAddDeleteClick.next(true);
