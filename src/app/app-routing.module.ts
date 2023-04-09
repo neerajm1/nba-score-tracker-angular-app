@@ -5,7 +5,8 @@ import { TeamSelectComponent } from './team-select/team-select.component';
 
 const routes: Routes = [
   { path: '', component: TeamSelectComponent },
-  { path: 'results/:teamCode', component: TeamGamesResultsComponent }
+  { path: 'results/:teamCode', component: TeamGamesResultsComponent },
+  { path: '**', component: TeamSelectComponent }
 ];
 
 @NgModule({

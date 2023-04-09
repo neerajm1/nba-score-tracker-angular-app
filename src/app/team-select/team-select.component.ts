@@ -49,7 +49,7 @@ export class TeamSelectComponent {
                 } else if (result.visitor_team.id === team.id) {
                   totalPointsScored += result.visitor_team_score;
                   totalPointsConceded += result.home_team_score;
-                  team.lastResults.push(result.visitor_team_score > result.home_team_score ? 1 : 0);
+                  team.lastResults.push(result.visitor_team_score >= result.home_team_score ? 1 : 0);
                 }
               });
               team.avgPointsScored = Math.floor(totalPointsScored / totalGames);

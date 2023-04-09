@@ -1,29 +1,31 @@
 <div class="row wrap">
     <div class="box-border p-10 team-details-box m-10" *ngFor="let team of selectedTeams">
-        <app-team-title-card [team]="team" [showDeleteButton]="true"></app-team-title-card>
-        <div class="p-10 row team-details">
-            <div class="result-box">
-                <p>
-                    Result for past 12 days
-                </p>
-                <div class="row wrap results-box">
-                    <div class="badge" *ngFor="let result of team.lastResults">
-                        <div *ngIf="result === 1; else lose" class="win-badge">W</div>
-                        <ng-template #lose>
-                            <div class="lose-badge">L</div>
-                        </ng-template>
+        <ng-container *ngIf="team.lastResults.length && team.avgPointsScored">
+            <app-team-title-card [team]="team" [showDeleteButton]="true"></app-team-title-card>
+            <div class="p-10 row team-details">
+                <div class="result-box">
+                    <p>
+                        Result for past 12 days
+                    </p>
+                    <div class="row wrap results-box">
+                        <div class="badge" *ngFor="let result of team.lastResults">
+                            <div *ngIf="result === 1; else lose" class="win-badge">W</div>
+                            <ng-template #lose>
+                                <div class="lose-badge">L</div>
+                            </ng-template>
+                        </div>
+                    </div>
+                    <div>
+                        Avg pts scored: {{ team.avgPointsScored }}
+                    </div>
+                    <div>
+                        Avg pts conceded: {{ team.avgPointsConceded }}
                     </div>
                 </div>
-                <div>
-                    Avg pts scored: {{ team.avgPointsScored }}
-                </div>
-                <div>
-                    Avg pts conceded: {{ team.avgPointsConceded }}
-                </div>
+                <img src="https://interstate21.com/nba-logos/{{team.abbreviation}}.png" height="150" width="150" />
             </div>
-            <img src="https://interstate21.com/nba-logos/{{team.abbreviation}}.png" height="150" width="150" />
-        </div>
-        <button class="green-button p-5" [routerLink]="['/results', team.id]">See game results
-            >></button>
+            <button class="green-button p-5" [routerLink]="['/results', team.abbreviation]">See game results
+                >></button>
+        </ng-container>
     </div>
 </div>
