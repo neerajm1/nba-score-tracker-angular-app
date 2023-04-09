@@ -25,22 +25,27 @@ export class NbaService {
   }
 
   getTeamGamesResults(teamId: number): Observable<GamesResultResponse> {
-    const today = new Date();
-    let datesForUrl = '';
-    for (let i = 0; i < 12; ++i) {
-      today.setDate(today.getDate() - 1);
-      const formattedDate = formatDate(today, 'yyyy-MM-dd', 'en');
-      datesForUrl = `${datesForUrl}dates[]=${formattedDate}`;
-      if (i !== 11) {
-        datesForUrl = datesForUrl + '&';
-      }
-    }
-    const url = `https://free-nba.p.rapidapi.com/games?page=0&${datesForUrl}&per_page=12&team_ids[]=${teamId}`;
+    const formattedDateString = this.getFormattedDateStringOfPast12Days();
+    const url = `https://free-nba.p.rapidapi.com/games?page=0&${formattedDateString}&per_page=12&team_ids[]=${teamId}`;
     return this.http.get<GamesResultResponse>(url).pipe(
       map(res => {
         res.data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
         return res;
       })
     );
+  }
+
+  private getFormattedDateStringOfPast12Days(): string {
+    const today = new Date();
+    let formattedDateString = '';
+    for (let i = 0; i < 12; ++i) {
+      today.setDate(today.getDate() - 1);
+      const formattedDate = formatDate(today, 'yyyy-MM-dd', 'en');
+      formattedDateString = `${formattedDateString}dates[]=${formattedDate}`;
+      if (i !== 11) {
+        formattedDateString = formattedDateString + '&';
+      }
+    }
+    return formattedDateString;
   }
 }

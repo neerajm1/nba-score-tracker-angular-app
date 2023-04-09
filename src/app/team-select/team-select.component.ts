@@ -36,28 +36,32 @@ export class TeamSelectComponent {
       this.nbaService.getTeamGamesResults(this.selectedTeamId)
         .subscribe((data) => {
           this.nbaService.teamGamesResults = data.data;
-          let totalPointsScored = 0;
-          let totalPointsConceded = 0;
-          const totalGames = this.nbaService.teamGamesResults.length;
-          this.nbaService.selectedTeams.forEach(team => {
-            if (this.selectedTeamId === team.id) {
-              this.nbaService.teamGamesResults.forEach(result => {
-                if (result.home_team.id === team.id) {
-                  totalPointsScored += result.home_team_score;
-                  totalPointsConceded += result.visitor_team_score;
-                  team.lastResults.push(result.home_team_score > result.visitor_team_score ? 1 : 0);
-                } else if (result.visitor_team.id === team.id) {
-                  totalPointsScored += result.visitor_team_score;
-                  totalPointsConceded += result.home_team_score;
-                  team.lastResults.push(result.visitor_team_score > result.home_team_score ? 1 : 0);
-                }
-              });
-              team.avgPointsScored = Math.floor(totalPointsScored / totalGames);
-              team.avgPointsConceded = Math.floor(totalPointsConceded / totalGames);
-            }
-          });
+          this.preparePast12DaysResults();
         });
       this.nbaService.teamAddDeleteClick.next(true);
     }
+  }
+
+  private preparePast12DaysResults() {
+    let totalPointsScored = 0;
+    let totalPointsConceded = 0;
+    const totalGames = this.nbaService.teamGamesResults.length;
+    this.nbaService.selectedTeams.forEach(team => {
+      if (this.selectedTeamId === team.id) {
+        this.nbaService.teamGamesResults.forEach(result => {
+          if (result.home_team.id === team.id) {
+            totalPointsScored += result.home_team_score;
+            totalPointsConceded += result.visitor_team_score;
+            team.lastResults.push(result.home_team_score > result.visitor_team_score ? 1 : 0);
+          } else if (result.visitor_team.id === team.id) {
+            totalPointsScored += result.visitor_team_score;
+            totalPointsConceded += result.home_team_score;
+            team.lastResults.push(result.visitor_team_score > result.home_team_score ? 1 : 0);
+          }
+        });
+        team.avgPointsScored = Math.floor(totalPointsScored / totalGames);
+        team.avgPointsConceded = Math.floor(totalPointsConceded / totalGames);
+      }
+    });
   }
 }
