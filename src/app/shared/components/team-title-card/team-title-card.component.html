@@ -4,6 +4,6 @@
         <h4>{{ team.conference }}ern conference</h4>
     </div>
     <div *ngIf="showDeleteButton">
-        <button (click)="onDeleteClick(team.id)" class="delete-button">x</button>
+        <button (click)="onDeleteClick(team.id)" class="delete-button" id="remove{{team.abbreviation}}">x</button>
     </div>
 </div>

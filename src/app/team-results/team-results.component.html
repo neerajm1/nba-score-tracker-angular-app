@@ -24,7 +24,8 @@
                 </div>
                 <img src="https://interstate21.com/nba-logos/{{team.abbreviation}}.png" height="150" width="150" />
             </div>
-            <button class="green-button p-5" [routerLink]="['/results', team.abbreviation]">See game results
+            <button class="green-button p-5" [routerLink]="['/results', team.abbreviation]"
+                id="results{{team.abbreviation}}">See game results
                 >></button>
         </ng-container>
     </div>
