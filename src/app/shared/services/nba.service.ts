@@ -8,12 +8,14 @@ import { GameResult, GamesResultResponse, Response, Team } from '../models/nba.m
   providedIn: 'root'
 })
 export class NbaService {
+  // public properties
   selectedTeams: Team[] = [];
   teamAddDeleteClick = new BehaviorSubject(false);
   teamGamesResults: GameResult[];
 
   constructor(private http: HttpClient) { }
 
+  // public methods
   getAllTeams(): Observable<Response<Team[]>> {
     const teamsApiUrl = 'https://free-nba.p.rapidapi.com/teams';
     return this.http.get<Response<Team[]>>(teamsApiUrl);
@@ -34,6 +36,32 @@ export class NbaService {
     );
   }
 
+  preparePast12DaysResults(selectedTeamId: number) {
+    let totalPointsScored = 0;
+    let totalPointsConceded = 0;
+    const totalGames = this.teamGamesResults.length;
+    this.selectedTeams.forEach(team => {
+      if (selectedTeamId === team.id) {
+        this.teamGamesResults.forEach(result => {
+          if (result.home_team.id === team.id) {
+            // if team plays home game
+            totalPointsScored += result.home_team_score;
+            totalPointsConceded += result.visitor_team_score;
+            team.lastResults.push(result.home_team_score > result.visitor_team_score ? 1 : 0);
+          } else if (result.visitor_team.id === team.id) {
+            // if team plays away(visitor) game
+            totalPointsScored += result.visitor_team_score;
+            totalPointsConceded += result.home_team_score;
+            team.lastResults.push(result.visitor_team_score > result.home_team_score ? 1 : 0);
+          }
+        });
+        team.avgPointsScored = Math.floor(totalPointsScored / totalGames);
+        team.avgPointsConceded = Math.floor(totalPointsConceded / totalGames);
+      }
+    });
+  }
+
+  // private methods
   private getFormattedDateStringOfPast12Days(): string {
     const today = new Date();
     let formattedDateString = '';

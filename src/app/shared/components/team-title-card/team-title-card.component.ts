@@ -8,11 +8,13 @@ import { NbaService } from '../../services/nba.service';
   styleUrls: ['./team-title-card.component.scss']
 })
 export class TeamTitleCardComponent {
+  // public properties
   @Input() team: Team;
   @Input() showDeleteButton: boolean;
 
   constructor(private nbaService: NbaService) { }
 
+  // public methods
   onDeleteClick(teamId: number) {
     this.nbaService.selectedTeams = this.nbaService.selectedTeams.filter(team => team.id !== teamId);
     this.nbaService.teamAddDeleteClick.next(true);

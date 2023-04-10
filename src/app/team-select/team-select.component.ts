@@ -8,12 +8,15 @@ import { NbaService } from '../shared/services/nba.service';
   styleUrls: ['./team-select.component.scss']
 })
 export class TeamSelectComponent {
+  // public properties
   teams: Team[];
-  selectedTeam: Team;
-  selectedTeamId: number;
+
+  // private fields
+  private selectedTeamId: number;
 
   constructor(public nbaService: NbaService) { }
 
+  // public methods
   ngOnInit() {
     this.nbaService.getAllTeams().subscribe(
       (data: Response<Team[]>) => {
@@ -29,42 +32,17 @@ export class TeamSelectComponent {
   }
 
   onTrackTeamClick() {
-    this.selectedTeam = this.teams.find(team => team.id === this.selectedTeamId);
+    const selectedTeam = this.teams.find(team => team.id === this.selectedTeamId);
     if (!this.nbaService.selectedTeams.find(team => team.id === this.selectedTeamId)) {
       this.nbaService.selectedTeams.push({
-        ...this.selectedTeam, lastResults: []
+        ...selectedTeam, lastResults: []
       });
       this.nbaService.getTeamGamesResults(this.selectedTeamId)
         .subscribe((data) => {
           this.nbaService.teamGamesResults = data.data;
-          this.preparePast12DaysResults();
+          this.nbaService.preparePast12DaysResults(this.selectedTeamId);
         });
       this.nbaService.teamAddDeleteClick.next(true);
     }
-  }
-
-  private preparePast12DaysResults() {
-    let totalPointsScored = 0;
-    let totalPointsConceded = 0;
-    const totalGames = this.nbaService.teamGamesResults.length;
-    this.nbaService.selectedTeams.forEach(team => {
-      if (this.selectedTeamId === team.id) {
-        this.nbaService.teamGamesResults.forEach(result => {
-          if (result.home_team.id === team.id) {
-            // if team plays home game
-            totalPointsScored += result.home_team_score;
-            totalPointsConceded += result.visitor_team_score;
-            team.lastResults.push(result.home_team_score > result.visitor_team_score ? 1 : 0);
-          } else if (result.visitor_team.id === team.id) {
-            // if team plays away(visitor) game
-            totalPointsScored += result.visitor_team_score;
-            totalPointsConceded += result.home_team_score;
-            team.lastResults.push(result.visitor_team_score > result.home_team_score ? 1 : 0);
-          }
-        });
-        team.avgPointsScored = Math.floor(totalPointsScored / totalGames);
-        team.avgPointsConceded = Math.floor(totalPointsConceded / totalGames);
-      }
-    });
   }
 }

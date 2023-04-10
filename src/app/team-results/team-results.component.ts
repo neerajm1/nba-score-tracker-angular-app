@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { GameResult, Team } from '../shared/models/nba.model';
+import { Team } from '../shared/models/nba.model';
 import { NbaService } from '../shared/services/nba.service';
 
 @Component({
@@ -8,13 +8,14 @@ import { NbaService } from '../shared/services/nba.service';
   styleUrls: ['./team-results.component.scss']
 })
 export class TeamResultsComponent {
+  //public properties
   selectedTeams: Team[] = [];
-  teamGamesResults: GameResult[];
 
   constructor(private nbaService: NbaService) { }
 
+  // public methods
   ngOnInit() {
-    this.nbaService.teamAddDeleteClick.subscribe((clicked: boolean) => {
+    this.nbaService.teamAddDeleteClick.subscribe(() => {
       this.selectedTeams = this.nbaService.selectedTeams;
     });
   }

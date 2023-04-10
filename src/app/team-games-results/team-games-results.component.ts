@@ -9,11 +9,13 @@ import { NbaService } from '../shared/services/nba.service';
   styleUrls: ['./team-games-results.component.scss']
 })
 export class TeamGamesResultsComponent {
+  // public properties
   teamData: Team;
   teamGamesResults: GameResult[];
 
   constructor(private route: ActivatedRoute, private nbaService: NbaService, private router: Router) { }
 
+  // public methods
   ngOnInit() {
     const teamCode = this.route.snapshot.params['teamCode'];
     this.nbaService.selectedTeams.forEach(team => {
