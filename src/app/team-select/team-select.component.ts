@@ -18,6 +18,7 @@ export class TeamSelectComponent {
     this.nbaService.getAllTeams().subscribe(
       (data: Response<Team[]>) => {
         this.teams = data.data;
+        // auto select 1st team in the dropdown list
         this.selectedTeamId = this.teams[0].id;
       }
     );
@@ -50,10 +51,12 @@ export class TeamSelectComponent {
       if (this.selectedTeamId === team.id) {
         this.nbaService.teamGamesResults.forEach(result => {
           if (result.home_team.id === team.id) {
+            // if team plays home game
             totalPointsScored += result.home_team_score;
             totalPointsConceded += result.visitor_team_score;
             team.lastResults.push(result.home_team_score > result.visitor_team_score ? 1 : 0);
           } else if (result.visitor_team.id === team.id) {
+            // if team plays away(visitor) game
             totalPointsScored += result.visitor_team_score;
             totalPointsConceded += result.home_team_score;
             team.lastResults.push(result.visitor_team_score > result.home_team_score ? 1 : 0);
