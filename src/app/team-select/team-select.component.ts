@@ -23,8 +23,8 @@ export class TeamSelectComponent {
     );
   }
 
-  onSelectChange(event) {
-    this.selectedTeamId = +event.target.value;
+  onSelectChange(event: Event) {
+    this.selectedTeamId = +(event.target as HTMLInputElement).value;
   }
 
   onTrackTeamClick() {
