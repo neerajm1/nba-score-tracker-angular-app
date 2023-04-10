@@ -39,7 +39,11 @@ export class TeamSelectComponent {
       });
       this.nbaService.getTeamGamesResults(this.selectedTeamId)
         .subscribe((data) => {
-          this.nbaService.teamGamesResults = data.data;
+          this.nbaService.selectedTeams.forEach(team => {
+            if (team.id === this.selectedTeamId) {
+              team.gamesResults = data.data
+            }
+          })
           this.nbaService.preparePast12DaysResults(this.selectedTeamId);
         });
       this.nbaService.teamAddDeleteClick.next(true);

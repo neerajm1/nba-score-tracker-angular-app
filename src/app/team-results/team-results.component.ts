@@ -15,8 +15,8 @@ export class TeamResultsComponent {
 
   // public methods
   ngOnInit() {
-    this.nbaService.teamAddDeleteClick.subscribe(() => {
-      this.selectedTeams = this.nbaService.selectedTeams;
+    this.nbaService.teamAddDeleteClick.subscribe((clicked: boolean) => {
+      this.selectedTeams = clicked && this.nbaService.selectedTeams;
     });
   }
 }

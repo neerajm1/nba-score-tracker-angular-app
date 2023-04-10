@@ -13,6 +13,7 @@ export interface Team {
     lastResults?: number[];
     avgPointsScored?: number;
     avgPointsConceded?: number;
+    gamesResults?: GameResult[];
 }
 
 export interface TeamData {

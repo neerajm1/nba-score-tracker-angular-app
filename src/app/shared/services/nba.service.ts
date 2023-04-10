@@ -11,7 +11,6 @@ export class NbaService {
   // public properties
   selectedTeams: Team[] = [];
   teamAddDeleteClick = new BehaviorSubject(false);
-  teamGamesResults: GameResult[];
 
   constructor(private http: HttpClient) { }
 
@@ -39,10 +38,10 @@ export class NbaService {
   preparePast12DaysResults(selectedTeamId: number) {
     let totalPointsScored = 0;
     let totalPointsConceded = 0;
-    const totalGames = this.teamGamesResults.length;
     this.selectedTeams.forEach(team => {
       if (selectedTeamId === team.id) {
-        this.teamGamesResults.forEach(result => {
+        const totalGames = team.gamesResults.length;
+        team.gamesResults.forEach(result => {
           if (result.home_team.id === team.id) {
             // if team plays home game
             totalPointsScored += result.home_team_score;

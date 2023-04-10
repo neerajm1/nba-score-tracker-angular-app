@@ -18,17 +18,10 @@ export class TeamGamesResultsComponent {
   // public methods
   ngOnInit() {
     const teamCode = this.route.snapshot.params['teamCode'];
-    this.nbaService.selectedTeams.forEach(team => {
-      if (team.abbreviation === teamCode) {
-        this.teamData = team;
-      }
-    });
-    if (this.teamData) {
-      this.nbaService.getTeamGamesResults(this.teamData.id).subscribe(data => {
-        this.teamGamesResults = this.nbaService.teamGamesResults = data.data;
-      });
-    } else {
+    this.teamData = this.nbaService.selectedTeams.find(team => team.abbreviation === teamCode);
+    if (!this.teamData) {
       this.router.navigate(['']);
     }
+    this.teamGamesResults = this.nbaService.selectedTeams.find(team => team.abbreviation === teamCode)?.gamesResults;
   }
 }
