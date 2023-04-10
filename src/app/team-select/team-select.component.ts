@@ -18,13 +18,17 @@ export class TeamSelectComponent {
 
   // public methods
   ngOnInit() {
-    this.nbaService.getAllTeams().subscribe(
-      (data: Response<Team[]>) => {
-        this.teams = data.data;
-        // auto select 1st team in the dropdown list
-        this.selectedTeamId = this.teams[0].id;
-      }
-    );
+    this.teams = this.nbaService.allTeams;
+    if (this.teams) {
+      this.selectFirstTeam();
+    } else {
+      this.nbaService.getAllTeams().subscribe(
+        (data: Response<Team[]>) => {
+          this.teams = this.nbaService.allTeams = data.data;
+          this.selectFirstTeam();
+        }
+      );
+    }
   }
 
   onSelectChange(event: Event) {
@@ -48,5 +52,9 @@ export class TeamSelectComponent {
         });
       this.nbaService.teamAddDeleteClick.next(true);
     }
+  }
+
+  private selectFirstTeam() {
+    this.selectedTeamId = this.teams[0].id;
   }
 }

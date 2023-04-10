@@ -9,6 +9,7 @@ import { GameResult, GamesResultResponse, Response, Team } from '../models/nba.m
 })
 export class NbaService {
   // public properties
+  allTeams: Team[];
   selectedTeams: Team[] = [];
   teamAddDeleteClick = new BehaviorSubject(false);
 
