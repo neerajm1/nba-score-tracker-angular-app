@@ -19,9 +19,10 @@ export class TeamGamesResultsComponent {
   ngOnInit() {
     const teamCode = this.route.snapshot.params['teamCode'];
     this.teamData = this.nbaService.selectedTeams.find(team => team.abbreviation === teamCode);
-    if (!this.teamData) {
+    if (this.teamData) {
+      this.teamGamesResults = this.teamData.gamesResults;
+    } else {
       this.router.navigate(['']);
     }
-    this.teamGamesResults = this.nbaService.selectedTeams.find(team => team.abbreviation === teamCode)?.gamesResults;
   }
 }
