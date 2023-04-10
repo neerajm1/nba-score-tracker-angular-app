@@ -28,9 +28,8 @@ export class NbaService {
     const formattedDateString = this.getFormattedDateStringOfPast12Days();
     const url = `https://free-nba.p.rapidapi.com/games?page=0&${formattedDateString}&per_page=12&team_ids[]=${teamId}`;
     return this.http.get<GamesResultResponse>(url).pipe(
-      map(res => {
-        res.data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-        return res;
+      map((res: GamesResultResponse) => {
+        return this.getModifiedTeamGamesResults(res);
       })
     );
   }
@@ -47,5 +46,14 @@ export class NbaService {
       }
     }
     return formattedDateString;
+  }
+
+  private getModifiedTeamGamesResults(teamGamesResults: GamesResultResponse) {
+    const modifiedResults = teamGamesResults;
+    // remove games, which have score 0-0 (games not played yet)
+    modifiedResults.data = teamGamesResults.data.filter(element => element.home_team_score !== 0 || element.visitor_team_score !== 0);
+    // sort games on date
+    modifiedResults.data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    return modifiedResults;
   }
 }
